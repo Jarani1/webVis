@@ -69,9 +69,9 @@ function focusPlusContext(data) {
      * Task 3 - Define scales and axes for context (Navigation through the data)
      */
 
-     var navXScale = d3.axisBottom(xScale),
-         navXAxis = d3.axisBottom(xAxis),
-         navYScale = d3.axisLeft(yScale);
+     var navXScale = d3.scaleTime().range([0, width]),
+         navXAxis = d3.axisBottom(xScale),
+         navYScale =  d3.scaleLinear().range([height2, 0]);
     /**
      * Task 4 - Define the brush for the context graph (Navigation)
      */
@@ -93,10 +93,10 @@ function focusPlusContext(data) {
     /**
      * Task 5 - Set the axes scales, both for focus and context.
      */
-     xScale.domain(d3.extent(small_points.getAtrribute("cx")));
-     yScale.domain([0, d3.max(small_points._getAtrribute("cy"))]);
-     xAxis.domain(xScale.domain());
-     yAxis.domain(yScale.domain());
+     xScale.domain([minDate, maxDate]);
+     yScale.domain([minMag, maxMag]);
+     navXScale.domain([minDate, maxDate]);
+     navYScale.domain([minMag, maxMag]);
 
 
     //<---------------------------------------------------------------------------------------------------->
@@ -115,7 +115,7 @@ function focusPlusContext(data) {
     context.append("g")
         .attr("class", "axis axis--x")
         .attr("transform", "translate(0," + height2 + ")")
-        .call(navXScale)
+        .call(navXAxis)
         //here..
     /**
      * Task 7 - Plot the small dots on the context graph.
@@ -123,6 +123,10 @@ function focusPlusContext(data) {
      // This function takes the features from the JSON file and prob gets the domain
     small_points = dots.selectAll("dot")
         //here...
+        //.enter().append("circle")
+        .data(dots)
+        .enter()
+        .append("circle")
         .filter(function (d) { return d.properties.EQ_PRIMARY != null })
         .attr("cx", function (d) {
             return navXScale(parseDate(d.properties.Date));
