@@ -122,14 +122,12 @@ function focusPlusContext(data) {
      */
      // This function takes the features from the JSON file and prob gets the domain
     small_points = dots.selectAll("dot")
-        //here...
-        //.enter().append("circle")
-        .data(dots)
-        .enter()
+        .data(data.features).enter()
         .append("circle")
+        .attr("class" , "dotContext")
         .filter(function (d) { return d.properties.EQ_PRIMARY != null })
         .attr("cx", function (d) {
-            return navXScale(parseDate(d.properties.Date));
+            return navXScale(parseDate(d.properties. Date));
         })
         .attr("cy", function (d) {
             return navYScale(d.properties.EQ_PRIMARY);
@@ -139,7 +137,9 @@ function focusPlusContext(data) {
       * Task 8 - Call plot function.
       * plot(points,nr,nr) try to use different numbers for the scaling.
       */
-
+         var points = new Points();
+         points.plot(small_points, 4 ,5);
+         
 
     //<---------------------------------------------------------------------------------------------------->
 
