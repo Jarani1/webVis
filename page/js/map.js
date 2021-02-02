@@ -8,33 +8,71 @@
 */
 function worldMap(data) {
 
-    /**
-     * Task 14 - Create a leaflet map and put center to 10,15 with zoom scale of 1
-     */
+    
+     //* Task 14 - Create a leaflet map and put center to 10,15 with zoom scale of 1
+     // Task 15 - Get the tileLayer from the link at the bottom of this file
+
+     var leaflet_map = L.map('mapid').setView([10, 15], 1);
+
+     L.tileLayer(map_link(), {
+             }).addTo(leaflet_map);
+
 
     /**
-     * Task 15 - Get the tileLayer from the link at the bottom of this file
-     * and add it to the map created above.
-    */
-
-    /**
+     * 
+     * 
      * Task 16 - Create an svg call on top of the leaflet map.
      * Also append a g tag on this svg tag and add class leaflet-zoom-hide.
      * This g tag will be needed later.
+     * 
+     * "Create a function called projectPointsOnMap that takes x,y points and projects it on the
+map. Inside the function create a variable called points and use latLngToLayerPoint on
+leaflet_map to create a new L.LatLng(). Now use this.stream on the point with the point.x,
+point.y."
+     * 
      */
+
+     
+     var svg_map = d3.select(leaflet_map.getPanes().overlayPane).append("svg") 
+   
+    var g = svg_map.append("g").attr("class" , "leaflet-zoom-hide");
 
     /**
      * Task 17 - Create a function that projects lat/lng points on the map.
-     * Use latLngToLayerPoint, remember which goes where.
+     * Use latLngToLayerPoint, remember which goes where. 
+     * Create a function called projectPointsOnMap that takes x,y points and projects it on the
+map. Inside the function create a variable called points and use latLngToLayerPoint on
+leaflet_map to create a new L.LatLng(). Now use this.stream on the point with the point.x,
+point.y
      */
+
+    function projectPointsOnMap(x, y)
+{
+    var points = leaflet_map.latLngToLayerPoint(new L.LatLng(x ,y));        //from below
+    this.stream.point(points.y, points.x)
+
+}
+
 
     /**
      * Task 18 - Now we need to transform all to the specific projection
      * create a variable called transform and use d3.geoTransform with the function above a parameter
      * {point:function.}
      * Create another variable names d3geoPath to project this transformation to it.
+     * 
+     *  Create a variable called transform and use d3.geoTransform with the function above as parameter (point:function). Create another
+        variable named d3geoPath to project this transformation to it. Use: d3.geoTransform()
+        d3.geoPath() .projection() Also don’t forget to remove the comment tags in the
+        applyLatLngToLayer() function
      */
     //Transforming to the specific projection
+
+
+    var transform = d3.geoTransform({point: projectPointsOnMap});
+    var d3path = d3.geoPath().projection(transform);
+
+
+
 
     // similar to projectPoint this function converts lat/long to
     //svg coordinates except that it accepts a point from our
@@ -42,7 +80,6 @@ function worldMap(data) {
     function applyLatLngToLayer(d) {
         var x = d.geometry.coordinates[0];
         var y = d.geometry.coordinates[1];
-        //Remove comment when reached task 19
         return leaflet_map.latLngToLayerPoint(new L.LatLng(y, x));
     }
 
@@ -56,20 +93,38 @@ function worldMap(data) {
      */
     //features for the points
 
+    
+
+
+    feature = g.selectAll("circle")
+    .data(data.features)
+    .enter()
+    .append("circle")
+    .attr("class", "mapcircle")
+    .attr("opacity" , 0.8)
+
+
     /**
      * Task 20 - Call the plot function with feature variable
-     * not integers needed.
-     */
+     * not integers needed
+     
+
+*/
+
+    
+    points.plot(feature);
+
+
 
     //Redraw the dots each time we interact with the map
     //Remove comment tags when done with task 20
-    //leaflet_map.on("moveend", reset);
-    //reset();
+    leaflet_map.on("moveend", reset);
+    reset();
 
     //Mouseover
     //Remove comment tags when done with task 20
-    //mouseOver(feature);
-    //mouseOut(feature);
+    mouseOver(feature);
+    mouseOut(feature);
 
     //Mouse over function
     function mouseOver(feature){
@@ -82,7 +137,7 @@ function worldMap(data) {
                 points.tooltip(d);
 
                 //Uncomment if implemented
-                //focus_plus_context.hovered();
+               focus_plus_context.hovered();
 
             });
     }
