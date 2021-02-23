@@ -57,9 +57,10 @@ function kmeans(data, k) {
  * @return {array}
  */
 function parseData(data){
-
     var array = [];
-
+    for (var i = 0; i < data.length; i++) {
+      array.push(parseFloat(data[i]));
+    }
     return array;
 }
 
@@ -72,15 +73,12 @@ function parseData(data){
 function initCentroids(data, k){
 
     //Create k centroids
-    //
-
-        centroids = [];
-        for (i = 0 ; i < k; i++ ) {
-            var cent_id = d3.randomUniform(data.length + 1);
-            //data = defer(d3.csv,'data/Data1-2clusters.csv')
-            centroid[i] = data[cent_id]
-        }
-      return centroid;
+    var centroid = [k];
+    for (var i = 0; i < k; i++){
+      var cent_id = d3.randomUniform(data.length + 1);
+      centroid[i] = data[cent_id];
+    }
+    return centroid;
 }
 
 /**
@@ -93,11 +91,9 @@ function initCentroids(data, k){
 */
 function assignPointsToMeans(points, means){
     var assignments = [];
-    for ( i = 0, i < points.length; i++) {
-
-        assignments.push.findClosestMeanIndex(points[i],means)
+    for (var i = 0; i < points.length; i++) {
+      assignments.push(findClosestMeanIndex(points[i], means));
     }
-    
     return assignments;
 };
 /**
@@ -109,12 +105,10 @@ function assignPointsToMeans(points, means){
  * @return {Number}
 */
 function findClosestMeanIndex(point, means){
-var distances = [];
-    for ( i = 0, i < means.length; i++) {
-        
-        distances.push.euclideanDistance(point,means[i])
+    var distances = [];
+    for (var i = 0; i < means.length; i++) {
+      distances.push(euclideanDistance(point, means))
     }
-    
     return findIndexOfMinimum(distances);
 };
 /**
@@ -128,10 +122,6 @@ function euclideanDistance(point1, point2){
 
     if (point1.length != point2.length)
         throw ("point1 and point2 must be of same dimension");
-        else
-     for ( i = 0 ; i < length.point; i++) {
-        var sum += Math.sqrt(sum((Math.pow(point1[i] , 2) + pow(point2[i] , 2))))
-     }
     return sum;
 
 };

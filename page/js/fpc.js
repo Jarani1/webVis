@@ -75,9 +75,14 @@ function focusPlusContext(data) {
     /**
      * Task 4 - Define the brush for the context graph (Navigation)
      */
+     // https://bl.ocks.org/bumbeishvili/6c54d3f0e202aa7004a669a768369c5d
+     // where they define brush
      var brush = d3.brushX()
          .extent([[0, 0],[width, height2]])
+<<<<<<< HEAD
          //.x(xAxis)
+=======
+>>>>>>> shahin
          .on("brush end", brushed);
 
 
@@ -122,9 +127,17 @@ function focusPlusContext(data) {
      */
      // This function takes the features from the JSON file and prob gets the domain
     small_points = dots.selectAll("dot")
+<<<<<<< HEAD
         .data(data.features).enter()
         .append("circle")
         .attr("class" , "dotContext")
+=======
+        //here...
+        .data(data.features)
+        .enter()
+        .append("circle")
+        .attr("class", "dotContext")
+>>>>>>> shahin
         .filter(function (d) { return d.properties.EQ_PRIMARY != null })
         .attr("cx", function (d) {
             return navXScale(parseDate(d.properties. Date));
@@ -137,9 +150,16 @@ function focusPlusContext(data) {
       * Task 8 - Call plot function.
       * plot(points,nr,nr) try to use different numbers for the scaling.
       */
+<<<<<<< HEAD
          var points = new Points();
          points.plot(small_points, 4 ,5);
          
+=======
+      // functions with uppercase names are constructors ->
+      // basically classes and you access their inner functions with dots.
+      plot = new Points()
+      plot.plot(small_points, 1, 3)
+>>>>>>> shahin
 
     //<---------------------------------------------------------------------------------------------------->
 
@@ -158,13 +178,24 @@ function focusPlusContext(data) {
      * Task 10 - Call x and y axis
      */
     focus.append("g")
+<<<<<<< HEAD
+=======
+    //here..
+    //https://bl.ocks.org/bumbeishvili/6c54d3f0e202aa7004a669a768369c5d
+>>>>>>> shahin
         .attr("class", "axis axis--x")
         .attr("transform", "translate(0," + height + ")")
         .call(xAxis);
     focus.append("g")
+<<<<<<< HEAD
       .attr("class", "axis axis--y")
       .call(yAxis);
 
+=======
+    //here..
+        .attr("class", "axis axis--y")
+        .call(yAxis);
+>>>>>>> shahin
     //Add y axis label to the scatter plot
     d3.select(".legend")
         .style('left', "170px")
@@ -183,10 +214,20 @@ function focusPlusContext(data) {
     /**
      * Task 11 - Plot the dots on the focus graph.
      */
+     //same as task 7
+     //opacity??
     selected_dots = dots.selectAll("dot")
+<<<<<<< HEAD
         .data(data.features).enter()
         .append("circle")
         .attr("class" , "dot")
+=======
+        //here..
+        .data(data.features)
+        .enter()
+        .append("circle")
+        .attr("class", "dot")
+>>>>>>> shahin
         .filter(function (d) { return d.properties.EQ_PRIMARY != null })
         .attr("cx", function (d) {
             return xScale(parseDate(d.properties.Date));
@@ -199,8 +240,13 @@ function focusPlusContext(data) {
      * Task 12 - Call plot function
      * plot(points,nr,nr) no need to send any integers!
      */
+<<<<<<< HEAD
     //var points = new Points();
          points.plot(selected_dots);
+=======
+     plot = new Points()
+     plot.plot(selected_dots)
+>>>>>>> shahin
 
     //<---------------------------------------------------------------------------------------------------->
 
@@ -217,8 +263,13 @@ function focusPlusContext(data) {
             /**
              * Task 13 - Update information in the "tooltip" by calling the tooltip function.
              */
+<<<<<<< HEAD
             points.tooltip(d);  //give information when mouse-overing dots
             
+=======
+            points.tooltip(d)
+
+>>>>>>> shahin
             //Rescale the dots onhover
             d3.select(this).attr('r', 15)
 
@@ -275,6 +326,7 @@ function focusPlusContext(data) {
      */
 
     //here..
+<<<<<<< HEAD
 
     context.append("g")
     .attr("class", "brush")
@@ -283,6 +335,16 @@ function focusPlusContext(data) {
 
 
 
+=======
+    //brush is defnied in task 4
+    //similar to task 6
+    //https://www.geeksforgeeks.org/d3-js-brush-move-function/
+    //range must return some sort of array
+    context.append("g")
+        .attr("class", "brush")
+        .call(brush)
+        .call(brush.move, xScale.range())
+>>>>>>> shahin
     //<---------------------------------------------------------------------------------------------------->
 
     //Brush function for filtering through the data.
@@ -313,7 +375,11 @@ function focusPlusContext(data) {
             /**
              * Remove comment for updating dots on the map.
              */
+<<<<<<< HEAD
            curr_points_view = world_map.change_map_points(curr_view_erth)
+=======
+            curr_points_view = world_map.change_map_points(curr_view_erth)
+>>>>>>> shahin
         }
     }
 
